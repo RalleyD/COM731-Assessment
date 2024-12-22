@@ -1,6 +1,6 @@
 import csv
 
-from .userInterface.table.display_data import display_extracted_data
+from .userInterface.table.display_data import display_extracted_data, extract_data
 
 
 patient_headers = []
@@ -55,3 +55,16 @@ def demographic_info(patient_id: int, csv_reader: list, patient_headers: dict):
         display_extracted_data(columns, [demographic_info])
     else:
         print("Patient ID not found!")
+
+
+def medical_history(ethnicity: int, csv_reader: list, patient_headers: dict):
+    medical_history = []
+    columns = ['Family_History', 'Comorbidity_Diabetes',
+               'Comorbidity_Kidney_Disease', 'Haemoglobin_Level']
+
+    for record in csv_reader:
+        if ethnicity in record[patient_headers['Ethnicity']].casefold():
+            medical_history.append(extract_data(
+                columns, record, patient_headers))
+    print(f"Records for patients of {ethnicity.capitalize()} ethnicity:")
+    display_extracted_data(columns, medical_history, limit_rows=20)
