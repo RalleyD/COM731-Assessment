@@ -68,3 +68,19 @@ def medical_history(ethnicity: int, csv_reader: list, patient_headers: dict):
                 columns, record, patient_headers))
     print(f"Records for patients of {ethnicity.capitalize()} ethnicity:")
     display_extracted_data(columns, medical_history, limit_rows=20)
+
+
+def survival_treatment_details(survival_months: int, csv_reader: list, patient_headers: dict):
+    # survival_period_months = 100
+    long_term = []
+    columns = ['Age', 'Tumor_Size_mm', 'Tumor_Location', 'Stage']
+
+    for record in csv_reader:
+        if int(record[patient_headers['Survival_Months']]) > survival_months:
+            long_term.append(
+                extract_data(columns, record, patient_headers)
+            )
+
+    print(
+        f"Patient records for survival greater than {survival_months} months on treatment:\n")
+    display_extracted_data(columns, long_term)
