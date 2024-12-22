@@ -45,7 +45,7 @@ def demographic_info(patient_id: int, csv_reader: list, patient_headers: dict):
         if int(record[patient_headers['Patient_ID']]) == patient_id:
             for column in columns:
                 ''' look up the row index from the column heading string
-                    and assign the value in the row to the dictionary, 
+                    and assign the value in the row to the dictionary,
                     providing the heading string as a key
                 '''
                 demographic_info[column] = record[patient_headers[column]]
@@ -71,7 +71,6 @@ def medical_history(ethnicity: int, csv_reader: list, patient_headers: dict):
 
 
 def survival_treatment_details(survival_months: int, csv_reader: list, patient_headers: dict):
-    # survival_period_months = 100
     long_term = []
     columns = ['Age', 'Tumor_Size_mm', 'Tumor_Location', 'Stage']
 
@@ -84,3 +83,22 @@ def survival_treatment_details(survival_months: int, csv_reader: list, patient_h
     print(
         f"Patient records for survival greater than {survival_months} months on treatment:\n")
     display_extracted_data(columns, long_term)
+
+
+def hypertension_patients(diastolic_target: int, csv_reader: list, patient_headers: dict):
+    treatment_records = []
+    columns = ['Treatment', 'Insurance_Type',
+               'Performance_Status', 'Comorbidity_Chronic_Lung_Disease']
+
+    for record in csv_reader:
+        # is the patient hypertensive or blood pressure above 140
+        if record[patient_headers['Comorbidity_Hypertension']] or \
+                record[patient_headers['Blood_Pressure_Diastolic']] > diastolic_target:
+            treatment_records.append(
+                extract_data(columns, record, patient_headers)
+            )
+
+    print(
+        f"Treatment records for patients with diastolic blood pressure above {diastolic_target} target or hypertension:\n")
+
+    display_extracted_data(columns, treatment_records)
