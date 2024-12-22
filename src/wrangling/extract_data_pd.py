@@ -104,3 +104,31 @@ def survival_blood_pressure(gender: str, lung_cancer_df: pd.DataFrame):
         f"average survival duration and blood pressure metrics for {gender}s")
     # pretty print in markdown table style, remove the numerical index column
     print(survival_cancer_gender_df.to_markdown(index=False))
+
+
+def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tuple:
+    """
+        Can be used to provide input to a pie chart.
+
+        Args:
+        ethnicity (str): user-specified ethnic group
+        lung_cancer_df (DataFrame): lung cancer data frame
+
+        Returns:
+            A tuple of two lists
+            The count of each treatment for a specified ethnic group.
+            The names of each treatment.
+        """
+    ethnicity = _capitalise_input(ethnicity)
+    grp = lung_cancer_df.groupby('Ethnicity')
+    grp = grp.get_group(ethnicity)
+
+    # create a Series of value counts of each treatment
+    grp_treatment_counts = grp.Treatment.value_counts()
+
+    # retrieve the index lables from the Series and put them into a list
+    treatment_labels = grp_treatment_counts.index.to_list()
+    # get the values of the Series and put into a list
+    treatment_count = grp_treatment_counts.to_list()  # grp['count'].to_list()
+
+    return treatment_count, treatment_labels
