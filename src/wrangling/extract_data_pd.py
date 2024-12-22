@@ -56,3 +56,17 @@ def treatment_white_blood_count(ethnicity: str, treatment: str, lung_cancer_df: 
 
     print(ethnic_group_treatment.get_group(
         treatment).White_Blood_Cell_Count.mean())
+
+
+def lung_tumor_data(lung_cancer_df: pd.DataFrame, pulse: int, tumor_size_mm: float):
+    # Filter by pulse > 90 and tumor size < 15.0, keeping only the columns we need.
+    lung_tumor_df = lung_cancer_df.loc[(lung_cancer_df.Blood_Pressure_Pulse > pulse) & (lung_cancer_df.Tumor_Size_mm < tumor_size_mm),
+                                       ['Smoking_Pack_Years', 'Treatment', 'Tumor_Location']].reset_index()
+
+    # group by tumor location and treatment type, finding the average smoking packs for each group
+    lung_tumor_df = lung_tumor_df.groupby(["Tumor_Location", "Treatment"])\
+        .Smoking_Pack_Years.mean()
+
+    print(
+        f"Average numnber of smoking packs for patients with pulse over {pulse} and tumor size over {tumor_size_mm} mm")
+    print(lung_tumor_df)

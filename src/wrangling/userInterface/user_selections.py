@@ -42,14 +42,6 @@ def _set_patient_field(field: str):
 
 
 def set_patient_ethnicity():
-    # ethnicity = ""
-    # while ethnicity == "":
-    #     ethnicity = input("Enter the patient ethnicity...")
-    #     if ethnicity:
-    #         break
-    #     else:
-    #         print("Please enter a valid input for Ethnicity, e.g 'Asian'")
-    # return ethnicity.casefold()
     return _set_patient_field("ethnicity")
 
 
