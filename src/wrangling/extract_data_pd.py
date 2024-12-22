@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from src.wrangling.userInterface.visualise.plot_data import plot_smoking_packs_cancer_stage
 
 
@@ -165,3 +166,34 @@ def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
                   for ethnicity in ethnicity_labels]
         plot_smoking_packs_cancer_stage(
             x_cancer_stages, ethnicity_labels, y_data)
+
+
+def blood_pressure_treatment(lung_cancer_df: pd.DataFrame):
+    """
+    Obtain the average blood pressure results for each treatment
+
+    Args:
+        lung_cancer_df (DataFrame): lung cancer data frame
+
+    Returns:
+        dict of extracted data
+    """
+    treatment_blood_press_df = lung_cancer_df.loc[:, [
+        'Treatment', 'Blood_Pressure_Systolic', 'Blood_Pressure_Diastolic', 'Blood_Pressure_Pulse']]
+
+    treatment_blood_press = treatment_blood_press_df.groupby('Treatment')[
+        ['Blood_Pressure_Systolic', 'Blood_Pressure_Diastolic', 'Blood_Pressure_Pulse']].mean()
+
+    x_treatment = treatment_blood_press.index.to_list()
+    # in order to divide a bar into three, a numpy array is required to offset the bar
+    x_axis = np.arange(len(x_treatment))
+
+    y_systolic = treatment_blood_press.Blood_Pressure_Systolic.to_list()
+    y_diastolic = treatment_blood_press.Blood_Pressure_Diastolic.to_list()
+    y_pulse = treatment_blood_press.Blood_Pressure_Pulse.to_list()
+
+    return {'systolic': y_systolic,
+            'diastolic': y_diastolic,
+            'pulse': y_pulse,
+            'x_axis': x_axis,
+            'treatment': x_treatment}

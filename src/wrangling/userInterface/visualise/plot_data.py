@@ -49,3 +49,38 @@ def plot_smoking_packs_cancer_stage(x_labels: list, y_labels: list, y_data: list
         "Ethnic Group Average Smoking Pack Consumption Accross Each Cancer Stage")
     plt.legend()
     plt.show()
+
+
+def plot_blood_pressure_treatment(blood_pressure_data: dict):
+    """
+    plot the average blood pressure readings
+    gathered from each treatment
+    onto a bar chart.
+
+    Args:
+        blood_pressure_data (dict): expects the following:
+                                    {'systolic': (list),
+                                     'diastolic': (list),
+                                     'pulse': (list),
+                                     'x_axis' (np.arrange(len(df.index))),
+                                     'treatment': (list)}
+    """
+    plt.figure(figsize=(10, 8))
+
+    blood_pressure_bars = []
+    blood_pressure_bars.append(plt.bar(
+        blood_pressure_data['x_axis']-0.3, blood_pressure_data['systolic'], width=0.3, label='Systolic'))
+    blood_pressure_bars.append(plt.bar(
+        blood_pressure_data['x_axis'], blood_pressure_data['diastolic'], width=0.3, label='Diastolic'))
+    blood_pressure_bars.append(plt.bar(
+        blood_pressure_data['x_axis']+0.3, blood_pressure_data['pulse'], width=0.3, label="Pulse"))
+
+    for bar in blood_pressure_bars:
+        plt.bar_label(bar, fmt="%.2f")
+    plt.xticks(blood_pressure_data['x_axis'], blood_pressure_data['treatment'])
+    plt.xlabel("Treatment Type")
+    plt.ylabel("Blood Pressure")
+    plt.ylim((70, 140))
+    plt.legend()
+    plt.title("Average Blood Pressure For Each Treatment Type")
+    plt.show()
