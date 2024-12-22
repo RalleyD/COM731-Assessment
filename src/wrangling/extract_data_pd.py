@@ -1,4 +1,5 @@
 import pandas as pd
+from src.wrangling.userInterface.visualise.plot_data import plot_smoking_packs_cancer_stage
 
 
 def _capitalise_input(user_value: str) -> str:
@@ -132,3 +133,35 @@ def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tup
     treatment_count = grp_treatment_counts.to_list()  # grp['count'].to_list()
 
     return treatment_count, treatment_labels
+
+
+def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
+    """
+    Obtain the average smoking packs at each cancer stage
+    for each ethnic group.
+
+    Args:
+        lung_cancer_df (DataFrame): DataFrame to wrangle.
+        plot (bool): switch to determine whether or not to plot the
+                     output data.
+    """
+    # get Stage, Smoking Pack and Ethnicity columns from the lung cancer DataFrame
+    smoking_consumption = lung_cancer_df.loc[:, [
+        'Stage', 'Smoking_Pack_Years', 'Ethnicity']]
+
+    # in order to determine the average smoking for each cancer stage in each ethnic group
+    # the DataFrame must first be grouped by ethnicity and stage columns.
+    smoking_consumption = smoking_consumption.groupby(['Ethnicity', 'Stage'])[
+        ['Smoking_Pack_Years']].mean()
+    smoking_consumption.reset_index(inplace=True)
+
+    grp = smoking_consumption.groupby('Ethnicity')
+
+    x_cancer_stages = smoking_consumption.Stage.unique().tolist()
+    ethnicity_labels = smoking_consumption.Ethnicity.unique().tolist()
+
+    if plot:
+        y_data = [grp.get_group(ethnicity).Smoking_Pack_Years.to_list()
+                  for ethnicity in ethnicity_labels]
+        plot_smoking_packs_cancer_stage(
+            x_cancer_stages, ethnicity_labels, y_data)
