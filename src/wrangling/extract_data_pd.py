@@ -70,3 +70,37 @@ def lung_tumor_data(lung_cancer_df: pd.DataFrame, pulse: int, tumor_size_mm: flo
     print(
         f"Average numnber of smoking packs for patients with pulse over {pulse} and tumor size over {tumor_size_mm} mm")
     print(lung_tumor_df)
+
+
+def survival_blood_pressure(gender: str, lung_cancer_df: pd.DataFrame):
+    """
+    Pretty print average survival duration and blood pressure metrics
+    for each treatment at each cancer stage, based on gender.
+
+    Args:
+        gender (str): user-specified gender
+        lung_cancer_df (DataFrame): lung cancer data frame.
+    """
+    gender = _capitalise_input(gender)
+    if gender not in lung_cancer_df.Gender.unique():
+        raise RuntimeError(f"Gender: '{gender}' not found")
+
+    ''' Group by gender, treatment, and cancer stage.
+    Then, find the average survival duration and blood pressure levels
+    for each cancer stage.
+    Finally, reset the index to remove the Dataframe levels
+    and provide a sequential index.
+    '''
+    survival_cancer_df = lung_cancer_df.groupby(['Gender', 'Treatment', 'Stage'])[
+        ['Survival_Months', 'Blood_Pressure_Diastolic', 'Blood_Pressure_Systolic']].mean().reset_index()
+
+    # filter out rows for specified gender
+    survival_cancer_gender_df = survival_cancer_df.loc[survival_cancer_df.Gender == gender, :]
+
+    # drop the gender column
+    survival_cancer_gender_df.drop(["Gender"], inplace=True, axis=1)
+
+    print(
+        f"average survival duration and blood pressure metrics for {gender}s")
+    # pretty print in markdown table style, remove the numerical index column
+    print(survival_cancer_gender_df.to_markdown(index=False))

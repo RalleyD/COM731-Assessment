@@ -47,3 +47,7 @@ def set_patient_ethnicity():
 
 def set_patient_treatment():
     return _set_patient_field("treatment")
+
+
+def set_patient_gender():
+    return _set_patient_field("gender")
