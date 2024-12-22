@@ -84,3 +84,40 @@ def plot_blood_pressure_treatment(blood_pressure_data: dict):
     plt.legend()
     plt.title("Average Blood Pressure For Each Treatment Type")
     plt.show()
+
+
+def plot_insurer_treatment_data(axis_data: dict):
+    """
+    Plot a bar chart of counts of different treatment for each insurer
+
+    Args:
+        axis_data (dict): extracted data, expected format:
+                            {'chemo': (list),
+                            'surgery': (list),
+                            'radiotherapy': (list),
+                            'targeted': (list),
+                            'x_axis': np.arange(len(labels)),
+                            'labels': (list)}
+    """
+    plt.figure(figsize=(15, 10))
+
+    treatment_bars = []
+    bar_width = 0.2
+    treatment_bars.append(
+        plt.bar(axis_data['x_axis']-0.4, axis_data['chemo'], width=bar_width, label='Chemotherapy'))
+    treatment_bars.append(
+        plt.bar(axis_data['x_axis']-0.2, axis_data['surgery'], width=bar_width, label='Surgery'))
+    treatment_bars.append(plt.bar(axis_data['x_axis'], axis_data['radiotherapy'],
+                          width=bar_width, label="Radiotherapy"))
+    treatment_bars.append(plt.bar(
+        axis_data['x_axis']+0.2, axis_data['targeted'], width=bar_width, label="Targeted Therapy"))
+
+    for bar in treatment_bars:
+        plt.bar_label(bar)
+    plt.xticks(axis_data['x_axis'], axis_data['labels'])
+    plt.xlabel("Insurance Type")
+    plt.ylabel("Treatment Counts")
+    plt.ylim(bottom=1000)
+    plt.legend()
+    plt.title("Treatment Counts For Each Insurance Type")
+    plt.show()

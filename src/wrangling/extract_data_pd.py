@@ -197,3 +197,50 @@ def blood_pressure_treatment(lung_cancer_df: pd.DataFrame):
             'pulse': y_pulse,
             'x_axis': x_axis,
             'treatment': x_treatment}
+
+
+def insurer_treatment_data(lung_cancer_df: pd.DataFrame):
+    """
+    Obtain the number of treatment types for each insurer
+
+    Args:
+        lung_cancer_df (DataFrame): lung cancer data frame
+
+    Returns:
+        dictionary of x axis range, x axis labels and
+        y axis data for each treatment
+    """
+    treatment_provider_df = lung_cancer_df.loc[:, [
+        'Treatment', 'Insurance_Type']]
+
+    """ in order to get a repeatable order of treatments, that correspond to each insurer
+        the value counts series must be sorted by its index.
+        The index is then reset to return a DataFrame for further wrangling
+        This also provides the value counts as column in the new DataFrame.
+    """
+    insurance_treatment_counts = treatment_provider_df.groupby(
+        ['Treatment']).Insurance_Type.value_counts().sort_index().reset_index()
+
+    # x axis labels
+    labels = insurance_treatment_counts['Insurance_Type'].unique()
+    x_axis = np.arange(len(labels))
+
+    # in order to get the count of each treatment, the DataFrame must me grouped by Treatment
+    treatment_groups_df = insurance_treatment_counts.groupby('Treatment')
+
+    # get the count of each treatment
+    y_chemo_count = treatment_groups_df.get_group('Chemotherapy')[
+        'count'].to_list()
+    y_surgery_count = treatment_groups_df.get_group('Surgery')[
+        'count'].to_list()
+    y_radio_count = treatment_groups_df.get_group(
+        'Radiation Therapy')['count'].to_list()
+    y_targeted_count = treatment_groups_df.get_group('Targeted Therapy')[
+        'count'].to_list()
+
+    return {'chemo': y_chemo_count,
+            'surgery': y_surgery_count,
+            'radiotherapy': y_radio_count,
+            'targeted': y_targeted_count,
+            'x_axis': x_axis,
+            'labels': labels}
