@@ -30,12 +30,28 @@ def set_patient_id():
     return patient_id
 
 
-def set_patient_ethnicity():
-    ethnicity = ""
-    while ethnicity == "":
-        ethnicity = input("Enter the patient ethnicity...")
-        if ethnicity:
+def _set_patient_field(field: str):
+    user_selection = ""
+    while user_selection == "":
+        user_selection = input(f"Enter the patient {field}...")
+        if user_selection:
             break
         else:
-            print("Please enter a valid input for Ethnicity, e.g 'Asian'")
-    return ethnicity.casefold()
+            print(f"Please enter a valid input for {field}")
+    return user_selection.casefold()
+
+
+def set_patient_ethnicity():
+    # ethnicity = ""
+    # while ethnicity == "":
+    #     ethnicity = input("Enter the patient ethnicity...")
+    #     if ethnicity:
+    #         break
+    #     else:
+    #         print("Please enter a valid input for Ethnicity, e.g 'Asian'")
+    # return ethnicity.casefold()
+    return _set_patient_field("ethnicity")
+
+
+def set_patient_treatment():
+    return _set_patient_field("treatment")
