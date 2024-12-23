@@ -1,0 +1,28 @@
+@startuml
+
+start
+
+:get csv data;
+
+Partition extract_function {
+    repeat
+        if (column value == input value ?) then
+            :record = {column_name: column_value};
+            :append record to list;
+        endif
+    repeat while (rows exhausted?) is (no) not (yes)
+}
+
+Partition display_function {
+    : print heading row;
+    repeat
+        : record value;
+        : str(value) left justified to column width;
+        : table separator;
+        : newline for next row;
+    repeat while (records exhausted or row limit reached?) is (no) not (yes)
+    : join rows into single string;
+    : print rows;
+}
+
+@enduml

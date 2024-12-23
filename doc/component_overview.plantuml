@@ -1,0 +1,8 @@
+@startuml
+
+:User: -down-> [user_selections]
+[user_selections] -down-> [extract_data_csv]
+[user_selections] -down-> [extract_data_pd]
+[extract_data_csv] ..> [display_data]
+[extract_data_pd] ..> [plot_data]
+@enduml
