@@ -1,7 +1,7 @@
 import csv
 
 from .userInterface.table.display_data import display_extracted_data, extract_data
-
+from .userInterface.user_selections import check_for_quit
 
 patient_headers = []
 csv_reader = None
@@ -41,6 +41,9 @@ def demographic_info(patient_id: int, csv_reader: list, patient_headers: dict):
     demographic_info = {}
     columns = ['Age', 'Gender', 'Smoking_History', 'Ethnicity']
 
+    if check_for_quit(patient_id):
+        return
+
     for record in csv_reader:
         if int(record[patient_headers['Patient_ID']]) == patient_id:
             for column in columns:
@@ -61,6 +64,9 @@ def medical_history(ethnicity: int, csv_reader: list, patient_headers: dict):
     medical_history = []
     columns = ['Family_History', 'Comorbidity_Diabetes',
                'Comorbidity_Kidney_Disease', 'Haemoglobin_Level']
+
+    if check_for_quit(ethnicity):
+        return
 
     for record in csv_reader:
         if ethnicity in record[patient_headers['Ethnicity']].casefold():

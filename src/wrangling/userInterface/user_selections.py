@@ -1,12 +1,8 @@
-'''
-    Defining some constants and variables that
-    will be used throughout the system
-    at the beginning of the file for easy access.
-'''
 import os
+
 # constant - directory where the datasets are stored
 data_path = "Data/"
-
+# list all files in the dataset directory
 data_files = os.listdir(data_path)
 
 
@@ -54,3 +50,10 @@ def set_patient_treatment():
 
 def set_patient_gender():
     return _set_patient_field("gender")
+
+
+def check_for_quit(input) -> bool:
+    if input.casefold() in ['q' or 'quit']:
+        return True
+    else:
+        return False

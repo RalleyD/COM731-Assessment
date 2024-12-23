@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from src.wrangling.userInterface.visualise.plot_data import plot_smoking_packs_cancer_stage
+from src.wrangling.userInterface.user_selections import check_for_quit
 
 
 def _capitalise_input(user_value: str) -> str:
@@ -20,6 +21,8 @@ def patient_long_survival(ethnicity: str, lung_cancer_df: pd.DataFrame):
 
         lung_cancer_df (DataFrame): lung cancer Pandas DataFrame.
     """
+    if check_for_quit(ethnicity):
+        return
     ethnicity = _capitalise_input(ethnicity)
     survival_months = 100
     long_term_df = lung_cancer_df.loc[lung_cancer_df.Survival_Months > survival_months, [
@@ -42,6 +45,8 @@ def treatment_white_blood_count(ethnicity: str, treatment: str, lung_cancer_df: 
         ethnicity (str): case-insensitive ethnic group.
         lung_cancer_df (DataFrame): lung cancer Pandas DataFrame.
     """
+    if check_for_quit(ethnicity):
+        return
     treatments = lung_cancer_df.Treatment.unique().tolist()
     ethnicity = _capitalise_input(ethnicity)
     treatment = _capitalise_input(treatment)
@@ -83,6 +88,8 @@ def survival_blood_pressure(gender: str, lung_cancer_df: pd.DataFrame):
         gender (str): user-specified gender
         lung_cancer_df (DataFrame): lung cancer data frame.
     """
+    if check_for_quit(gender):
+        return
     gender = _capitalise_input(gender)
     if gender not in lung_cancer_df.Gender.unique():
         return f"Gender: '{gender}' not found"
@@ -121,6 +128,9 @@ def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tup
             The count of each treatment for a specified ethnic group.
             The names of each treatment.
         """
+    if check_for_quit(ethnicity):
+        return
+
     ethnicity = _capitalise_input(ethnicity)
     grp = lung_cancer_df.groupby('Ethnicity')
     grp = grp.get_group(ethnicity)
