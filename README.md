@@ -1,10 +1,24 @@
 # COM731-Assessment
 This repository, "COM731 Assessment," serves as a platform for housing assessments related to the COM731 course by Daniel Ralley
 
-# About Me
-## Hello, my name is Dan, and I'm a software developer.
-Find me in bookshops
+# AE2
+## Scope
+The solution is driven by a Jupyter notebook, consuming the datasets in the 'Data/' directory.
 
-Holla for an epic flat white
+The solution provides the following features:
 
-    I write C for real-time systems, feel free to ask me how :-D
+    - CSV data extraction.
+    - Pandas data extraction.
+    - Display in tabular format.
+    - Visualisation.
+
+When prompted, the user can specify patient attributes to filter and interpret data on:
+
+    - Ethnic groups.
+    - Treatment types.
+    - Gender.
+
+## Usage
+Execute each cell, follow the on screen prompts.
+
+Output data and plots are displayed in-line in the notebook, below the executed cell.
