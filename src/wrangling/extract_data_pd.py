@@ -30,7 +30,7 @@ def patient_long_survival(ethnicity: str, lung_cancer_df: pd.DataFrame):
     print(
         f"Top three treatments for {ethnicity} group - Surival > {survival_months} months")
     print(long_term_ethnic_groups.get_group(
-        ethnicity).Treatment.value_counts().head(3))
+        ethnicity).Treatment.value_counts().head(3).to_markdown())
 
 
 def treatment_white_blood_count(ethnicity: str, treatment: str, lung_cancer_df: pd.DataFrame):
@@ -47,7 +47,7 @@ def treatment_white_blood_count(ethnicity: str, treatment: str, lung_cancer_df: 
     treatment = _capitalise_input(treatment)
 
     if treatment not in treatments:
-        raise RuntimeError(f"Treatment: '{treatment}' not found.")
+        return f"Treatment: '{treatment}' not found."
 
     white_blood_df = lung_cancer_df.groupby('Ethnicity')
     ethnic_group_treatment = white_blood_df.get_group(
@@ -85,7 +85,7 @@ def survival_blood_pressure(gender: str, lung_cancer_df: pd.DataFrame):
     """
     gender = _capitalise_input(gender)
     if gender not in lung_cancer_df.Gender.unique():
-        raise RuntimeError(f"Gender: '{gender}' not found")
+        return f"Gender: '{gender}' not found"
 
     ''' Group by gender, treatment, and cancer stage.
     Then, find the average survival duration and blood pressure levels
@@ -110,7 +110,7 @@ def survival_blood_pressure(gender: str, lung_cancer_df: pd.DataFrame):
 
 def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tuple:
     """
-        Can be used to provide input to a pie chart.
+        Used to provide input to a pie chart.
 
         Args:
         ethnicity (str): user-specified ethnic group
@@ -131,7 +131,7 @@ def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tup
     # retrieve the index lables from the Series and put them into a list
     treatment_labels = grp_treatment_counts.index.to_list()
     # get the values of the Series and put into a list
-    treatment_count = grp_treatment_counts.to_list()  # grp['count'].to_list()
+    treatment_count = grp_treatment_counts.to_list()
 
     return treatment_count, treatment_labels
 

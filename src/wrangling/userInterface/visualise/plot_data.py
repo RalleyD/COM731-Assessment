@@ -38,10 +38,8 @@ def plot_smoking_packs_cancer_stage(x_labels: list, y_labels: list, y_data: list
         y_data (list): of lists containng the output data to plot.
     """
     plt.figure(figsize=(20, 10))
-    for ethnicity, y in zip(y_labels, y_data):
-        # y_mean_smoking_pack_years = y_axis_data.get_group(
-        #     ethnicity).Smoking_Pack_Years.to_list()
-        plt.plot(x_labels, y, label=ethnicity)
+    for label, data in zip(y_labels, y_data):
+        plt.plot(x_labels, data, label=label)
 
     plt.xlabel("Cancer Stage")
     plt.ylabel("Average (mean) Smoking Pack Years")

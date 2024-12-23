@@ -33,8 +33,11 @@ def set_patient_id():
 def _set_patient_field(field: str):
     user_selection = ""
     while user_selection == "":
-        user_selection = input(f"Enter the patient {field}...")
-        if user_selection:
+        user_selection = input(
+            f"Enter the patient {field} or 'quit' ('q') to quit...")
+        if user_selection.casefold() in ['q', 'quit']:
+            break
+        elif user_selection:
             break
         else:
             print(f"Please enter a valid input for {field}")
