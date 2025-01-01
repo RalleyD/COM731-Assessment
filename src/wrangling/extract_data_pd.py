@@ -173,27 +173,15 @@ def blood_pressure_treatment(lung_cancer_df: pd.DataFrame):
         lung_cancer_df (DataFrame): lung cancer data frame
 
     Returns:
-        dict of extracted data
+        DataFrame of extracted data
     """
     treatment_blood_press_df = lung_cancer_df.loc[:, [
         'Treatment', 'Blood_Pressure_Systolic', 'Blood_Pressure_Diastolic', 'Blood_Pressure_Pulse']]
 
-    treatment_blood_press = treatment_blood_press_df.groupby('Treatment')[
+    treatment_blood_press_mean_df = treatment_blood_press_df.groupby('Treatment')[
         ['Blood_Pressure_Systolic', 'Blood_Pressure_Diastolic', 'Blood_Pressure_Pulse']].mean()
 
-    x_treatment = treatment_blood_press.index.to_list()
-    # in order to divide a bar into three, a numpy array is required to offset the bar
-    x_axis = np.arange(len(x_treatment))
-
-    y_systolic = treatment_blood_press.Blood_Pressure_Systolic.to_list()
-    y_diastolic = treatment_blood_press.Blood_Pressure_Diastolic.to_list()
-    y_pulse = treatment_blood_press.Blood_Pressure_Pulse.to_list()
-
-    return {'systolic': y_systolic,
-            'diastolic': y_diastolic,
-            'pulse': y_pulse,
-            'x_axis': x_axis,
-            'treatment': x_treatment}
+    return treatment_blood_press_mean_df
 
 
 def insurer_treatment_data(lung_cancer_df: pd.DataFrame):

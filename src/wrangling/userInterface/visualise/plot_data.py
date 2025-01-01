@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 
 def plot_treatment_proportion_for_ethnicity(ethnicity: str, treatment_count_series: pd.Series):
@@ -56,33 +57,40 @@ def plot_smoking_packs_cancer_stage(ethnic_grp_cancer_stage_df: pd.DataFrame):
     plt.show()
 
 
-def plot_blood_pressure_treatment(blood_pressure_data: dict):
+def plot_blood_pressure_treatment(treatment_blood_pressure_df: pd.DataFrame):
     """
     plot the average blood pressure readings
     gathered from each treatment
     onto a bar chart.
 
     Args:
-        blood_pressure_data (dict): expects the following:
-                                    {'systolic': (list),
-                                     'diastolic': (list),
-                                     'pulse': (list),
-                                     'x_axis' (np.arrange(len(df.index))),
-                                     'treatment': (list)}
+        blood_pressure_data (DataFrame): columns, mean blood pressure readings.
+                                         rows, treatment.
     """
+
+    x_treatment = treatment_blood_pressure_df.index.to_list()
+    # in order to divide a bar into three, a numpy array is required to offset the bar
+    x_axis = np.arange(len(x_treatment))
+
     plt.figure(figsize=(10, 8))
 
     blood_pressure_bars = []
     blood_pressure_bars.append(plt.bar(
-        blood_pressure_data['x_axis']-0.3, blood_pressure_data['systolic'], width=0.3, label='Systolic'))
+        x_axis-0.3, treatment_blood_pressure_df['Blood_Pressure_Systolic'], width=0.3,
+        label=treatment_blood_pressure_df['Blood_Pressure_Systolic'].name))
+
     blood_pressure_bars.append(plt.bar(
-        blood_pressure_data['x_axis'], blood_pressure_data['diastolic'], width=0.3, label='Diastolic'))
+        x_axis, treatment_blood_pressure_df['Blood_Pressure_Diastolic'], width=0.3,
+        label=treatment_blood_pressure_df['Blood_Pressure_Diastolic'].name))
+
     blood_pressure_bars.append(plt.bar(
-        blood_pressure_data['x_axis']+0.3, blood_pressure_data['pulse'], width=0.3, label="Pulse"))
+        x_axis+0.3, treatment_blood_pressure_df['Blood_Pressure_Pulse'], width=0.3,
+        label=treatment_blood_pressure_df['Blood_Pressure_Pulse'].name))
 
     for bar in blood_pressure_bars:
         plt.bar_label(bar, fmt="%.2f")
-    plt.xticks(blood_pressure_data['x_axis'], blood_pressure_data['treatment'])
+
+    plt.xticks(x_axis, x_treatment)
     plt.xlabel("Treatment Type")
     plt.ylabel("Blood Pressure")
     plt.ylim((70, 140))
