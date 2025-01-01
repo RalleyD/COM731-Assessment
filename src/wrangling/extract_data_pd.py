@@ -157,8 +157,8 @@ def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
                      output data.
     """
     # get Stage, Smoking Pack and Ethnicity columns from the lung cancer DataFrame
-    smoking_consumption = lung_cancer_df.loc[:, [
-        'Stage', 'Smoking_Pack_Years', 'Ethnicity']]
+    smoking_consumption = lung_cancer_df.loc[:,
+                                             ['Stage', 'Smoking_Pack_Years', 'Ethnicity']]
 
     # in order to determine the average smoking for each cancer stage in each ethnic group
     # the DataFrame must first be grouped by ethnicity and stage columns.
@@ -166,16 +166,9 @@ def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
         ['Smoking_Pack_Years']].mean()
     smoking_consumption.reset_index(inplace=True)
 
-    grp = smoking_consumption.groupby('Ethnicity')
-
-    x_cancer_stages = smoking_consumption.Stage.unique().tolist()
-    ethnicity_labels = smoking_consumption.Ethnicity.unique().tolist()
-
     if plot:
-        y_data = [grp.get_group(ethnicity).Smoking_Pack_Years.to_list()
-                  for ethnicity in ethnicity_labels]
         plot_smoking_packs_cancer_stage(
-            x_cancer_stages, ethnicity_labels, y_data)
+            smoking_consumption)
 
 
 def blood_pressure_treatment(lung_cancer_df: pd.DataFrame):
@@ -254,3 +247,14 @@ def insurer_treatment_data(lung_cancer_df: pd.DataFrame):
             'targeted': y_targeted_count,
             'x_axis': x_axis,
             'labels': labels}
+
+
+if __name__ == "__main__":
+    """
+    For testing independently of the top-level notebook
+    This can be run like a standalone module with:
+    python3 -m src.wrangling.extract_data_pd
+    """
+    with open("Data/lung_cancer_data.csv", encoding='utf8') as fp:
+        lung_df = pd.read_csv(fp)
+        smoking_packs_cancer_stage(lung_df, True)

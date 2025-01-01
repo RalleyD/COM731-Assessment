@@ -26,20 +26,21 @@ def plot_treatment_proportion_for_ethnicity(ethnicity: str, treatment_count: lis
     plt.show()
 
 
-def plot_smoking_packs_cancer_stage(x_labels: list, y_labels: list, y_data: list):
+def plot_smoking_packs_cancer_stage(ethnic_grp_cancer_stage_df: pd.DataFrame):
     """
     Create a line chat to plot the trend of average smoking packs against
     cancer stage.
     Loops through every list in y_data to plot on the same chart.
 
     Args:
-        x_labels (list): ticks or values for x axis.
-        y_labels (list): legend for y axis data
-        y_data (list): of lists containng the output data to plot.
+        ethnic_grp_cancer_stage_df (DataFrame): mean smoking pack years
+                                                for each cancer stage and
+                                                ethnic group
     """
     plt.figure(figsize=(20, 10))
-    for label, data in zip(y_labels, y_data):
-        plt.plot(x_labels, data, label=label)
+    for ethnicity, group in ethnic_grp_cancer_stage_df.groupby('Ethnicity'):
+        plt.plot(group['Stage'], group['Smoking_Pack_Years'],
+                 label=ethnicity)
 
     plt.xlabel("Cancer Stage")
     plt.ylabel("Average (mean) Smoking Pack Years")
