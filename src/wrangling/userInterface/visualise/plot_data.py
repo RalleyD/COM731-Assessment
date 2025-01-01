@@ -2,16 +2,22 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def plot_treatment_proportion_for_ethnicity(ethnicity: str, treatment_count: list, treatment_labels: list):
+def plot_treatment_proportion_for_ethnicity(ethnicity: str, treatment_count_series: pd.Series):
     """
         Plot a pie chart of the proportion of treatments
         for a given ethnic group.
 
         Args:
             ethnicity (str): user-specified ethnic group
-            treatment_count (list): value count of each treatment
-            treatment_labels (list): the name of each treatment
+            treatment_count_series (Series): a series of treatment counts
+                                             indexed by treatment type
     """
+
+    # retrieve the index lables from the Series and put them into a list
+    treatment_labels = treatment_count_series.index.to_list()
+    # get the values of the Series and put into a list
+    treatment_count = treatment_count_series.to_list()
+
     # create a figure
     plt.figure(figsize=(10, 6))
 

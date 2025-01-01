@@ -124,9 +124,8 @@ def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tup
         lung_cancer_df (DataFrame): lung cancer data frame
 
         Returns:
-            A tuple of two lists
-            The count of each treatment for a specified ethnic group.
-            The names of each treatment.
+            Series : a series of treatment counts
+                      indexed by treatment type
         """
     if check_for_quit(ethnicity):
         return
@@ -136,14 +135,9 @@ def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tup
     grp = grp.get_group(ethnicity)
 
     # create a Series of value counts of each treatment
-    grp_treatment_counts = grp.Treatment.value_counts()
+    treatment_counts_series = grp.Treatment.value_counts()
 
-    # retrieve the index lables from the Series and put them into a list
-    treatment_labels = grp_treatment_counts.index.to_list()
-    # get the values of the Series and put into a list
-    treatment_count = grp_treatment_counts.to_list()
-
-    return treatment_count, treatment_labels
+    return treatment_counts_series
 
 
 def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
