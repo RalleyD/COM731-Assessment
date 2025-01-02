@@ -25,4 +25,6 @@ Partition display_function {
     : print rows;
 }
 
+stop
+
 @enduml
