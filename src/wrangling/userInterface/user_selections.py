@@ -56,6 +56,27 @@ def _set_patient_field(field: str):
     return user_selection.casefold()
 
 
+def set_patient_id():
+    """
+    Validate and set the user's patient ID input
+
+    Returns:
+        string: patient ID
+    """
+    while True:
+        id = _set_patient_field('patient_id')
+        if not check_for_quit(id):
+            try:
+                id = int(id, base=10)
+            except ValueError:
+                print("Enter a valid numerical value for patient ID")
+            else:
+                break
+        else:
+            break
+    return id
+
+
 def set_patient_ethnicity():
     """
     Wraps _set_patient_field to validate and return the user input.
@@ -87,7 +108,18 @@ def set_patient_gender():
 
 
 def check_for_quit(input: str) -> bool:
-    if input.casefold() in ['q', 'quit']:
-        return True
-    else:
-        return False
+    """
+    Checks if the user wants to quit
+
+    Args:
+        input (string): user input
+
+    Returns:
+        bool: true if the user wants to quit
+              otherwise false.
+    """
+    if type(input) is str:
+        if input.casefold() in ['q', 'quit']:
+            return True
+        else:
+            return False
