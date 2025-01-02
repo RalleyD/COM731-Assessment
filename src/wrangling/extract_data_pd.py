@@ -149,6 +149,10 @@ def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
         lung_cancer_df (DataFrame): DataFrame to wrangle.
         plot (bool): switch to determine whether or not to plot the
                      output data.
+
+    Returns:
+        DataFrame: average smoking pack for each cancer stage in each
+                   ethnic group.
     """
     # get Stage, Smoking Pack and Ethnicity columns from the lung cancer DataFrame
     smoking_consumption = lung_cancer_df.loc[:,
@@ -163,6 +167,8 @@ def smoking_packs_cancer_stage(lung_cancer_df: pd.DataFrame, plot=True):
     if plot:
         plot_smoking_packs_cancer_stage(
             smoking_consumption)
+
+    return smoking_consumption
 
 
 def blood_pressure_treatment(lung_cancer_df: pd.DataFrame):
