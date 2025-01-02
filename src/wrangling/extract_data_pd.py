@@ -126,7 +126,7 @@ def treatment_for_ethnicity(ethnicity: str, lung_cancer_df: pd.DataFrame) -> tup
         Returns:
             Series : a series of treatment counts
                       indexed by treatment type
-        """
+    """
     if check_for_quit(ethnicity):
         return
 

@@ -7,6 +7,14 @@ data_files = os.listdir(data_path)
 
 
 def set_user_file():
+    """
+    Select the .csv file from the user's input
+
+    Returns:
+        string: file name (with extension)
+    """
+    # list all files in the dataset directory
+    data_files = os.listdir(data_path)
     print(
         f"The available files to analyse, in the '{data_path[:-1]}' directory:")
     print("\t\n".join(data_files))
@@ -22,16 +30,19 @@ def set_user_file():
     return file_name
 
 
-def set_patient_id():
-    try:
-        patient_id = int(
-            input("Enter patient ID to retrieve demographic information..."), base=10)
-    except ValueError:
-        print("please enter a valid numerical value for the patient ID")
-    return patient_id
-
-
 def _set_patient_field(field: str):
+    """
+    Helper function.
+
+    Validates and sets the user specified input.
+    Used for checking the input against the data record.
+
+    Args:
+        field (string): 
+
+    Returns:
+        string: caseless patient field for comparison
+    """
     user_selection = ""
     while user_selection == "":
         user_selection = input(
@@ -46,14 +57,32 @@ def _set_patient_field(field: str):
 
 
 def set_patient_ethnicity():
+    """
+    Wraps _set_patient_field to validate and return the user input.
+
+    Returns:
+        string: caseless patient ethnicity for comparison
+    """
     return _set_patient_field("ethnicity")
 
 
 def set_patient_treatment():
+    """
+    Wraps _set_patient_field to validate and return the user input.
+
+    Returns:
+        string: caseless patient treatment for comparison
+    """
     return _set_patient_field("treatment")
 
 
 def set_patient_gender():
+    """
+    Wraps _set_patient_field to validate and return the user input.
+
+    Returns:
+        string: caseless patient gender for comparison
+    """
     return _set_patient_field("gender")
 
 

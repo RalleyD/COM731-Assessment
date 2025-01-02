@@ -8,6 +8,17 @@ csv_reader = None
 
 
 def get_csv_data():
+    """
+        Provides CSV data and
+        a mapping of column headings to index.
+
+        Returns:
+            tuple: a list of the CSV data rows
+                   a dictionary of column headers mapped
+                   to their respective column index.
+    """
+    patient_headers = None
+    csv_reader = None
     # prompt the user to enter the dataset to be analysed
     file_name = set_user_file()
     if check_for_quit(file_name):
@@ -41,7 +52,16 @@ def get_csv_data():
         print(e)
 
 
-def demographic_info(patient_id: int, csv_reader: list, patient_headers: dict):
+def demographic_info(patient_id: str, csv_reader: list, patient_headers: dict):
+    """
+        Displays a table of data for a given patient ID.
+
+        Args:
+        patient_id (int): patient ID number.
+        csv_reader (list): rows of data
+        patient_headers (dict): mapping of column headers to their respective
+                                column index.
+    """
     # contains the specific values from the columns, mapped to their respective key headings.
     demographic_info = {}
     columns = ['Age', 'Gender', 'Smoking_History', 'Ethnicity']
@@ -50,7 +70,7 @@ def demographic_info(patient_id: int, csv_reader: list, patient_headers: dict):
         return
 
     for record in csv_reader:
-        if int(record[patient_headers['Patient_ID']]) == patient_id:
+        if int(record[patient_headers['Patient_ID']]) == int(patient_id):
             for column in columns:
                 ''' look up the row index from the column heading string
                     and assign the value in the row to the dictionary,
@@ -65,7 +85,16 @@ def demographic_info(patient_id: int, csv_reader: list, patient_headers: dict):
         print("Patient ID not found!")
 
 
-def medical_history(ethnicity: int, csv_reader: list, patient_headers: dict):
+def medical_history(ethnicity: str, csv_reader: list, patient_headers: dict):
+    """
+        Displays a table of data for a given patient ethnicity.
+
+        Args:
+        ethnicity (string): patient ethnicity e.g 'asian'.
+        csv_reader (list): rows of data
+        patient_headers (dict): mapping of column headers to their respective
+                                column index.
+    """
     medical_history = []
     columns = ['Family_History', 'Comorbidity_Diabetes',
                'Comorbidity_Kidney_Disease', 'Haemoglobin_Level']
@@ -82,6 +111,15 @@ def medical_history(ethnicity: int, csv_reader: list, patient_headers: dict):
 
 
 def survival_treatment_details(survival_months: int, csv_reader: list, patient_headers: dict):
+    """
+        Displays a table of data for a given survival duration (months).
+
+        Args:
+        survival_months (int): patient survival.
+        csv_reader (list): rows of data
+        patient_headers (dict): mapping of column headers to their respective
+                                column index.
+    """
     long_term = []
     columns = ['Age', 'Tumor_Size_mm', 'Tumor_Location', 'Stage']
 
@@ -96,7 +134,16 @@ def survival_treatment_details(survival_months: int, csv_reader: list, patient_h
     display_extracted_data(columns, long_term)
 
 
-def hypertension_patients(diastolic_target: int, csv_reader: list, patient_headers: dict):
+def hypertension_patients(diastolic_target: float, csv_reader: list, patient_headers: dict):
+    """
+        Displays a table of data for a hypertensive patients.
+
+        Args:
+        diastolic_target (float): any patient below this target will be filtered out.
+        csv_reader (list): rows of data
+        patient_headers (dict): mapping of column headers to their respective
+                                column index.
+    """
     treatment_records = []
     columns = ['Treatment', 'Insurance_Type',
                'Performance_Status', 'Comorbidity_Chronic_Lung_Disease']
