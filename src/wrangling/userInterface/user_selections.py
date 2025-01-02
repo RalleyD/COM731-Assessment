@@ -9,11 +9,16 @@ data_files = os.listdir(data_path)
 def set_user_file():
     print(
         f"The available files to analyse, in the '{data_path[:-1]}' directory:")
-    print("{}\t\n".format(*data_files))
-    file_name = input(
-        "Enter the name of the CSV file from the Data directory...")
-    if file_name == "":
-        raise Exception("Plase Enter a valid selection")
+    print("\t\n".join(data_files))
+    while True:
+        file_name = input(
+            "Enter the name of the CSV file from the Data directory or 'quit' ('q') to quit...")
+        if check_for_quit(file_name):
+            break
+        elif file_name:
+            break
+        else:
+            print("Please enter a valid filename including the '.csv' extension")
     return file_name
 
 
@@ -31,7 +36,7 @@ def _set_patient_field(field: str):
     while user_selection == "":
         user_selection = input(
             f"Enter the patient {field} or 'quit' ('q') to quit...")
-        if user_selection.casefold() in ['q', 'quit']:
+        if check_for_quit(user_selection):
             break
         elif user_selection:
             break
@@ -52,8 +57,8 @@ def set_patient_gender():
     return _set_patient_field("gender")
 
 
-def check_for_quit(input) -> bool:
-    if input.casefold() in ['q' or 'quit']:
+def check_for_quit(input: str) -> bool:
+    if input.casefold() in ['q', 'quit']:
         return True
     else:
         return False

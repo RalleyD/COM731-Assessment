@@ -1,13 +1,17 @@
 import csv
 
 from .userInterface.table.display_data import display_extracted_data, extract_data
-from .userInterface.user_selections import check_for_quit
+from .userInterface.user_selections import check_for_quit, set_user_file, data_path, check_for_quit
 
 patient_headers = []
 csv_reader = None
 
 
-def get_csv_data(data_path, file_name):
+def get_csv_data():
+    # prompt the user to enter the dataset to be analysed
+    file_name = set_user_file()
+    if check_for_quit(file_name):
+        return (None, None)
     try:
         with open(data_path+file_name, 'r', encoding='utf8', newline='') as fp:
             ''' turn the csv reader into a list containing the entire dataset
@@ -26,8 +30,9 @@ def get_csv_data(data_path, file_name):
             patient_headers = {v: i for i, v in enumerate(patient_headers)}
 
             # development purposes only
-            print("dataset headers:")
-            print(f"{*patient_headers.keys(),}")
+            print(f"\nDataset headers, {file_name}:")
+            print("----------------------------------")
+            print("\t\n".join(patient_headers))
 
             return patient_headers, csv_reader
 
