@@ -13,8 +13,6 @@ def set_user_file():
     Returns:
         string: file name (with extension)
     """
-    # list all files in the dataset directory
-    data_files = os.listdir(data_path)
     print(
         f"The available files to analyse, in the '{data_path[:-1]}' directory:")
     print("\t\n".join(data_files))
@@ -23,10 +21,10 @@ def set_user_file():
             "Enter the name of the CSV file from the Data directory or 'quit' ('q') to quit...")
         if check_for_quit(file_name):
             break
-        elif file_name:
-            break
-        else:
+        elif file_name == "" or not file_name.endswith(".csv"):
             print("Please enter a valid filename including the '.csv' extension")
+        else:
+            break
     return file_name
 
 

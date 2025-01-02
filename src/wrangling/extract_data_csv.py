@@ -22,7 +22,7 @@ def get_csv_data():
     # prompt the user to enter the dataset to be analysed
     file_name = set_user_file()
     if check_for_quit(file_name):
-        return (None, None)
+        return None, None
     try:
         with open(data_path+file_name, 'r', encoding='utf8', newline='') as fp:
             ''' turn the csv reader into a list containing the entire dataset
@@ -44,12 +44,11 @@ def get_csv_data():
             print(f"\nDataset headers, {file_name}:")
             print("----------------------------------")
             print("\t\n".join(patient_headers))
-
-            return patient_headers, csv_reader
-
     except FileNotFoundError as e:
         print("Ensure the filename has been entered correctly")
         print(e)
+    finally:
+        return patient_headers, csv_reader
 
 
 def demographic_info(patient_id: str, csv_reader: list, patient_headers: dict):
