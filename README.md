@@ -18,6 +18,13 @@ When prompted, the user can specify patient attributes to filter and interpret d
     - Treatment types.
     - Gender.
 
+## Environment
+The solution uses some external Python packages.
+
+It is recommended to create a new Conda environment to manage these dependencies.
+
+The ```environment.yml``` installs all of the dependencies when creating a Conda environment.
+
 ## Usage
 Execute each cell, follow the on screen prompts.
 
