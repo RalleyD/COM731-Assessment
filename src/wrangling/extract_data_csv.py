@@ -1,13 +1,13 @@
 import csv
 
 from .userInterface.table.display_data import display_extracted_data, extract_data
-from .userInterface.user_selections import check_for_quit, set_user_file, data_path, check_for_quit
+from .userInterface.user_selections import check_for_quit, check_for_quit
 
 patient_headers = []
 csv_reader = None
 
 
-def get_csv_data():
+def get_csv_data(data_path: str, file_name: str) -> tuple:
     """
         Provides CSV data and
         a mapping of column headings to index.
@@ -19,8 +19,7 @@ def get_csv_data():
     """
     patient_headers = None
     csv_reader = None
-    # prompt the user to enter the dataset to be analysed
-    file_name = set_user_file()
+
     if check_for_quit(file_name):
         return None, None
     try:
