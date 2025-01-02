@@ -206,29 +206,7 @@ def insurer_treatment_data(lung_cancer_df: pd.DataFrame):
     insurance_treatment_counts = treatment_provider_df.groupby(
         ['Treatment']).Insurance_Type.value_counts().sort_index().reset_index()
 
-    # x axis labels
-    labels = insurance_treatment_counts['Insurance_Type'].unique()
-    x_axis = np.arange(len(labels))
-
-    # in order to get the count of each treatment, the DataFrame must me grouped by Treatment
-    treatment_groups_df = insurance_treatment_counts.groupby('Treatment')
-
-    # get the count of each treatment
-    y_chemo_count = treatment_groups_df.get_group('Chemotherapy')[
-        'count'].to_list()
-    y_surgery_count = treatment_groups_df.get_group('Surgery')[
-        'count'].to_list()
-    y_radio_count = treatment_groups_df.get_group(
-        'Radiation Therapy')['count'].to_list()
-    y_targeted_count = treatment_groups_df.get_group('Targeted Therapy')[
-        'count'].to_list()
-
-    return {'chemo': y_chemo_count,
-            'surgery': y_surgery_count,
-            'radiotherapy': y_radio_count,
-            'targeted': y_targeted_count,
-            'x_axis': x_axis,
-            'labels': labels}
+    return insurance_treatment_counts
 
 
 if __name__ == "__main__":
@@ -239,4 +217,5 @@ if __name__ == "__main__":
     """
     with open("Data/lung_cancer_data.csv", encoding='utf8') as fp:
         lung_df = pd.read_csv(fp)
-        smoking_packs_cancer_stage(lung_df, True)
+        # smoking_packs_cancer_stage(lung_df, True)
+        insurer_treatment_data(lung_df)

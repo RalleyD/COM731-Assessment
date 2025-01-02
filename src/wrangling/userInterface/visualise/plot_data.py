@@ -99,7 +99,7 @@ def plot_blood_pressure_treatment(treatment_blood_pressure_df: pd.DataFrame):
     plt.show()
 
 
-def plot_insurer_treatment_data(axis_data: dict):
+def plot_insurer_treatment_data(insurer_treatment_df: pd.DataFrame):
     """
     Plot a bar chart of counts of different treatment for each insurer
 
@@ -112,22 +112,37 @@ def plot_insurer_treatment_data(axis_data: dict):
                             'x_axis': np.arange(len(labels)),
                             'labels': (list)}
     """
+    # in order to get the count of each treatment, the DataFrame must me grouped by Treatment
+    treatment_groups_df = insurer_treatment_df.groupby('Treatment')
+    # x axis
+    labels = insurer_treatment_df['Insurance_Type'].unique()
+    x_axis = np.arange(len(labels))
+    # get each treatment group - the count and treatment string will be used to create a labelled bar
+    y_chemo = treatment_groups_df.get_group('Chemotherapy')
+    y_surgery = treatment_groups_df.get_group('Surgery')
+    y_radio = treatment_groups_df.get_group('Radiation Therapy')
+    y_targeted = treatment_groups_df.get_group('Targeted Therapy')
+
     plt.figure(figsize=(15, 10))
 
     treatment_bars = []
     bar_width = 0.2
     treatment_bars.append(
-        plt.bar(axis_data['x_axis']-0.4, axis_data['chemo'], width=bar_width, label='Chemotherapy'))
+        plt.bar(x_axis-0.4, y_chemo['count'], width=bar_width,
+                label=y_chemo['Treatment'].unique()[0]))
     treatment_bars.append(
-        plt.bar(axis_data['x_axis']-0.2, axis_data['surgery'], width=bar_width, label='Surgery'))
-    treatment_bars.append(plt.bar(axis_data['x_axis'], axis_data['radiotherapy'],
-                          width=bar_width, label="Radiotherapy"))
-    treatment_bars.append(plt.bar(
-        axis_data['x_axis']+0.2, axis_data['targeted'], width=bar_width, label="Targeted Therapy"))
+        plt.bar(x_axis-0.2, y_surgery['count'], width=bar_width,
+                label=y_surgery['Treatment'].unique()[0]))
+    treatment_bars.append(
+        plt.bar(x_axis, y_radio['count'],
+                width=bar_width, label=y_radio['Treatment'].unique()[0]))
+    treatment_bars.append(
+        plt.bar(x_axis+0.2, y_targeted['count'],
+                width=bar_width, label=y_targeted['Treatment'].unique()[0]))
 
     for bar in treatment_bars:
         plt.bar_label(bar)
-    plt.xticks(axis_data['x_axis'], axis_data['labels'])
+    plt.xticks(x_axis, labels)
     plt.xlabel("Insurance Type")
     plt.ylabel("Treatment Counts")
     plt.ylim(bottom=1000)
