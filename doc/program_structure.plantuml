@@ -1,0 +1,28 @@
+@startuml
+
+package "COM731-Assessment/" {
+    [analyse_cancer_data.ipynb] as jnb
+
+    package "src/wrangling"{
+        [extract_data_csv.py] as csv
+        [extract_data_pd.py] as pd
+        package "userInterface/" {
+        [user_selections.py] as userSel
+        ' i kept these as components as it renders more clearly
+        ' than if table and visualise were package elements
+        [table/display_data.py] as dispData
+        [visualise/plot_data.py] as plot
+        }
+
+        jnb --> userSel
+        jnb --> csv
+        jnb --> pd
+        csv --> userSel
+        csv --> dispData
+        pd --> userSel
+        pd --> plot
+    }
+
+}
+
+@enduml
